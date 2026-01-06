@@ -31,7 +31,7 @@ func (h *Handler) GetActiveSmithEmployees(c *gin.Context) {
 
 	c.JSON(http.StatusOK, standard.Response{
 		Success: true,
-		Message: "Success to get employess",
+		Message: "Success to get employees",
 		Result:  employees,
 	})
 }
@@ -43,14 +43,14 @@ func (h *Handler) GetEmployeesWithoutReviews(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, standard.Response{
 			Success: false,
-			Message: "Failed to fetch employess",
+			Message: "Failed to fetch employees",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, standard.Response{
 		Success: true,
-		Message: "Success to get employess",
+		Message: "Success to get employees",
 		Result:  employees,
 	})
 }

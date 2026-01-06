@@ -44,7 +44,7 @@ func (r *repository) FindActiveSmithEmployees(ctx context.Context) ([]EmployeeNa
 }
 
 func (r *repository) FindEmployeesWithoutReviews(ctx context.Context) ([]EmployeeName, error) {
-	query := `SELECT e.first_name, e.last_name FROM employees e WHERE NOT EXIST (
+	query := `SELECT e.first_name, e.last_name FROM employees e WHERE NOT EXISTS (
 				SELECT 1 FROM annual_reviews ar WHERE ar.employee_id = e.id 
 			) ORDER BY e.hire_date`
 
