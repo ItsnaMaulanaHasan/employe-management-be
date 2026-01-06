@@ -33,3 +33,22 @@ func (h *Handler) GetActiveSmithEmployees(c *gin.Context) {
 		Result:  employees,
 	})
 }
+
+func (h *Handler) GetEmployeesWithoutReviews(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	employees, err := h.service.GetEmployeesWithoutReviews(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to fetch employess",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "Success to get employess",
+		Result:  employees,
+	})
+}
