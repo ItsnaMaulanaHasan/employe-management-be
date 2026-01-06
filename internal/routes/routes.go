@@ -16,4 +16,5 @@ func SetUpRoutes(r *gin.Engine) {
 	apiV1.GET("/employees/active/smith", employeeHandler.GetActiveSmithEmployees)
 	apiV1.GET("/employees/no-reviews", employeeHandler.GetEmployeesWithoutReviews)
 	apiV1.GET("/employees/hire-date-diff", employeeHandler.GetHireDateDiffActiveEmployees)
+	apiV1.GET("/employees/salary-estimation", employeeHandler.GetSalaryEstimationWithReviews)
 }
