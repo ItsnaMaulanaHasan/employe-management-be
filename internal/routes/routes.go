@@ -17,4 +17,11 @@ func SetUpRoutes(r *gin.Engine) {
 	apiV1.GET("/employees/no-reviews", employeeHandler.GetEmployeesWithoutReviews)
 	apiV1.GET("/employees/hire-date-diff", employeeHandler.GetHireDateDiffActiveEmployees)
 	apiV1.GET("/employees/salary-estimation", employeeHandler.GetSalaryEstimationWithReviews)
+
+	apiV1.POST("/employees/save/contoh2", employeeHandler.SaveActiveSmithEmployeesToFile)
+	apiV1.POST("/employees/save/contoh3", employeeHandler.SaveEmployeesWithoutReviewsToFile)
+	apiV1.POST("/employees/save/contoh4", employeeHandler.SaveHireDateDiffActiveEmployeesToFile)
+	apiV1.POST("/employees/save/contoh5", employeeHandler.SaveSalaryEstimationWithReviewsToFile)
+
+	apiV1.GET("/employees/read/file", employeeHandler.GetReportFromFile)
 }
