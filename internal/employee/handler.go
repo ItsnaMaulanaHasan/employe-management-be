@@ -71,3 +71,22 @@ func (h *Handler) GetHireDateDiffActiveEmployees(c *gin.Context) {
 		Result:  diffDays,
 	})
 }
+
+func (h *Handler) GetSalaryEstimationWithReviews(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	results, err := h.service.GetSalaryEstimationWithReviews(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to calculate salary estimation",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "Success to calculate salary estimation",
+		Result:  results,
+	})
+}
