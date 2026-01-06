@@ -90,3 +90,118 @@ func (h *Handler) GetSalaryEstimationWithReviews(c *gin.Context) {
 		Result:  results,
 	})
 }
+
+func (h *Handler) SaveActiveSmithEmployeesToFile(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	data, err := h.service.GetActiveSmithEmployees(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to fetch data employees",
+		})
+		return
+	}
+
+	filename := "contoh2.txt"
+
+	err = SaveJSONToFile(filename, data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to save file",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "File save successfully",
+	})
+}
+func (h *Handler) SaveEmployeesWithoutReviewsToFile(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	data, err := h.service.GetEmployeesWithoutReviews(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to fetch data employees",
+		})
+		return
+	}
+
+	filename := "contoh3.txt"
+
+	err = SaveJSONToFile(filename, data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to save file",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "File save successfully",
+	})
+}
+
+func (h *Handler) SaveHireDateDiffActiveEmployeesToFile(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	data, err := h.service.GetHireDateDiffActiveEmployees(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to calculate hire date difference",
+		})
+		return
+	}
+
+	filename := "contoh4.txt"
+
+	err = SaveJSONToFile(filename, data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to save file",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "File save successfully",
+	})
+}
+
+func (h *Handler) SaveSalaryEstimationWithReviewsToFile(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	data, err := h.service.GetSalaryEstimationWithReviews(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to calculate salary estimation",
+		})
+		return
+	}
+
+	filename := "contoh5.txt"
+
+	err = SaveJSONToFile(filename, data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to save file",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "File save successfully",
+	})
+}
