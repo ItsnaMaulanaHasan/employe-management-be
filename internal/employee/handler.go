@@ -2,6 +2,7 @@ package employee
 
 import (
 	standard "be-employee-management/pkg/response"
+	"encoding/json"
 	"net/http"
 	"path/filepath"
 
@@ -210,4 +211,38 @@ func (h *Handler) SaveSalaryEstimationWithReviewsToFile(c *gin.Context) {
 	c.Header("Content-Type", "text/plain")
 	c.Header("Content-Disposition", "attachment; filename="+filename)
 	c.File(filePath)
+}
+
+func (h *Handler) GetReportFromFile(c *gin.Context) {
+	filename := c.Query("filename")
+	if filename == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "filename is required",
+		})
+		return
+	}
+
+	bytes, err := ReadJSONFromFile(filename)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "file not found",
+		})
+		return
+	}
+
+	var jsonData any
+	err = json.Unmarshal(bytes, &jsonData)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Invalid json content",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "Success read file txt",
+		Result:  jsonData,
+	})
 }
