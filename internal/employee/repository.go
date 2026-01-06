@@ -10,6 +10,7 @@ type Repository interface {
 	FindActiveSmithEmployees(ctx context.Context) ([]EmployeeName, error)
 	FindEmployeesWithoutReviews(ctx context.Context) ([]EmployeeName, error)
 	GetHireDateDiffActiveEmployees(ctx context.Context) (int, error)
+	GetSalaryEstimationWithReviews(ctx context.Context) ([]EmployeeSalaryEstimate, error)
 }
 
 type repository struct {
@@ -76,4 +77,34 @@ func (r *repository) GetHireDateDiffActiveEmployees(ctx context.Context) (int, e
 	}
 
 	return diffDays, nil
+}
+
+func (r *repository) GetSalaryEstimationWithReviews(ctx context.Context) ([]EmployeeSalaryEstimate, error) {
+	query := `SELECT e.first_name, e.last_name, ROUND(e.salary * POWER(1.15, 7), 2) AS salary_2016, COUNT(ar.id) AS total_reviews FROM employees e
+			LEFT JOIN annual_reviews ar
+			ON ar.employee_id = e.id
+			GROUP BY e.id, e.first_name, e.last_name, e.salary
+			ORDER BY salary_2016 DESC, total_reviews ASC`
+
+	rows, err := r.db.Query(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []EmployeeSalaryEstimate
+	for rows.Next() {
+		var e EmployeeSalaryEstimate
+		if err := rows.Scan(
+			&e.FirstName,
+			&e.LastName,
+			&e.Salary2016,
+			&e.TotalReviews,
+		); err != nil {
+			return nil, err
+		}
+		results = append(results, e)
+	}
+
+	return results, nil
 }
