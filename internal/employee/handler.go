@@ -3,6 +3,7 @@ package employee
 import (
 	standard "be-employee-management/pkg/response"
 	"net/http"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -114,11 +115,13 @@ func (h *Handler) SaveActiveSmithEmployeesToFile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, standard.Response{
-		Success: true,
-		Message: "File save successfully",
-	})
+	filePath := filepath.Join("storage/reports", filename)
+
+	c.Header("Content-Type", "text/plain")
+	c.Header("Content-Disposition", "attachment; filename="+filename)
+	c.File(filePath)
 }
+
 func (h *Handler) SaveEmployeesWithoutReviewsToFile(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -142,10 +145,11 @@ func (h *Handler) SaveEmployeesWithoutReviewsToFile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, standard.Response{
-		Success: true,
-		Message: "File save successfully",
-	})
+	filePath := filepath.Join("storage/reports", filename)
+
+	c.Header("Content-Type", "text/plain")
+	c.Header("Content-Disposition", "attachment; filename="+filename)
+	c.File(filePath)
 }
 
 func (h *Handler) SaveHireDateDiffActiveEmployeesToFile(c *gin.Context) {
@@ -171,10 +175,11 @@ func (h *Handler) SaveHireDateDiffActiveEmployeesToFile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, standard.Response{
-		Success: true,
-		Message: "File save successfully",
-	})
+	filePath := filepath.Join("storage/reports", filename)
+
+	c.Header("Content-Type", "text/plain")
+	c.Header("Content-Disposition", "attachment; filename="+filename)
+	c.File(filePath)
 }
 
 func (h *Handler) SaveSalaryEstimationWithReviewsToFile(c *gin.Context) {
@@ -200,8 +205,9 @@ func (h *Handler) SaveSalaryEstimationWithReviewsToFile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, standard.Response{
-		Success: true,
-		Message: "File save successfully",
-	})
+	filePath := filepath.Join("storage/reports", filename)
+
+	c.Header("Content-Type", "text/plain")
+	c.Header("Content-Disposition", "attachment; filename="+filename)
+	c.File(filePath)
 }
