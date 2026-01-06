@@ -7,6 +7,7 @@ import (
 type Service interface {
 	GetActiveSmithEmployees(ctx context.Context) ([]EmployeeName, error)
 	GetEmployeesWithoutReviews(ctx context.Context) ([]EmployeeName, error)
+	GetHireDateDiffActiveEmployees(ctx context.Context) (int, error)
 }
 
 type service struct {
@@ -23,4 +24,8 @@ func (s *service) GetActiveSmithEmployees(ctx context.Context) ([]EmployeeName, 
 
 func (s *service) GetEmployeesWithoutReviews(ctx context.Context) ([]EmployeeName, error) {
 	return s.repo.FindEmployeesWithoutReviews(ctx)
+}
+
+func (s *service) GetHireDateDiffActiveEmployees(ctx context.Context) (int, error) {
+	return s.repo.GetHireDateDiffActiveEmployees(ctx)
 }

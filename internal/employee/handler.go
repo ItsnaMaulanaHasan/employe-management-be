@@ -52,3 +52,22 @@ func (h *Handler) GetEmployeesWithoutReviews(c *gin.Context) {
 		Result:  employees,
 	})
 }
+
+func (h *Handler) GetHireDateDiffActiveEmployees(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	diffDays, err := h.service.GetHireDateDiffActiveEmployees(ctx)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, standard.Response{
+			Success: false,
+			Message: "Failed to calculate hire date difference",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, standard.Response{
+		Success: true,
+		Message: "Success to calculate hire date difference",
+		Result:  diffDays,
+	})
+}

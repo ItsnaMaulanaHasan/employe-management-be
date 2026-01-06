@@ -15,4 +15,5 @@ func SetUpRoutes(r *gin.Engine) {
 	apiV1 := r.Group("/api/v1")
 	apiV1.GET("/employees/active/smith", employeeHandler.GetActiveSmithEmployees)
 	apiV1.GET("/employees/no-reviews", employeeHandler.GetEmployeesWithoutReviews)
+	apiV1.GET("/employees/hire-date-diff", employeeHandler.GetHireDateDiffActiveEmployees)
 }

@@ -9,6 +9,7 @@ import (
 type Repository interface {
 	FindActiveSmithEmployees(ctx context.Context) ([]EmployeeName, error)
 	FindEmployeesWithoutReviews(ctx context.Context) ([]EmployeeName, error)
+	GetHireDateDiffActiveEmployees(ctx context.Context) (int, error)
 }
 
 type repository struct {
@@ -63,4 +64,16 @@ func (r *repository) FindEmployeesWithoutReviews(ctx context.Context) ([]Employe
 	}
 
 	return employees, nil
+}
+
+func (r *repository) GetHireDateDiffActiveEmployees(ctx context.Context) (int, error) {
+	query := `SELECT COALESCE(MAX(hire_date) - MIN(hire_date), 0) AS diff_days FROM employees WHERE termination_date IS NULL`
+
+	var diffDays int
+	err := r.db.QueryRow(ctx, query).Scan(&diffDays)
+	if err != nil {
+		return 0, nil
+	}
+
+	return diffDays, nil
 }
